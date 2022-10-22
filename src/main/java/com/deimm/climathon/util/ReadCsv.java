@@ -3,6 +3,8 @@ package com.deimm.climathon.util;
 import com.deimm.climathon.dto.Emission;
 import com.deimm.climathon.dto.Humidity;
 import com.deimm.climathon.dto.Raindrops;
+import com.deimm.climathon.dto.Sunlight;
+import com.deimm.climathon.dto.Temperature;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -19,8 +21,6 @@ public class ReadCsv {
     private List<Object> raindrops;
     private List<Object> sunlight;
     private List<Object> temperature;
-    private List<Object> trees;
-    private List<Object> waterQuality;
 
     public ReadCsv(){
         this.emissions = new ArrayList<>();
@@ -28,8 +28,6 @@ public class ReadCsv {
         this.raindrops = new ArrayList<>();
         this.sunlight = new ArrayList<>();
         this.temperature = new ArrayList<>();
-        this.trees = new ArrayList<>();
-        this.waterQuality = new ArrayList<>();
     }
 
     public void fillLists(){
@@ -38,8 +36,6 @@ public class ReadCsv {
         readCsv("raindrops.csv", raindrops);
         readCsv("sunlight.csv", sunlight);
         readCsv("temperatureAvg.csv", temperature);
-        readCsv("trees.csv", trees);
-        readCsv("waterQuality.csv", waterQuality);
     }
 
     private void readCsv(String filename, List<Object> list){
@@ -51,13 +47,36 @@ public class ReadCsv {
                     case "emissions.csv" -> list.add(toEmission(values));
                     case "humidity.csv" -> list.add(toHumidity(values));
                     case "raindrops.csv" -> list.add(toRaindrops(values));
-
+                    case "sunlight.csv" -> list.add(toSunlight(values));
+                    case "temperatureAvg.csv" -> list.add(toTemperatureAvg(values));
                     default -> System.out.println("Nepodporovany typ do listu " + filename);
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private Temperature toTemperatureAvg(String[] values) {
+        Temperature t = new Temperature();
+        Optional.ofNullable(values[0]).ifPresent(t::setRegion);
+        Optional.ofNullable(values[1]).ifPresent(t::setCityPart);
+        Optional.ofNullable(values[2]).ifPresent(t::setYear);
+        if (values.length > 3) {
+            Optional.ofNullable(values[3]).ifPresent(t::setTemperature);
+        }
+        return t;
+    }
+
+    private Sunlight toSunlight(String[] values) {
+        Sunlight s = new Sunlight();
+        Optional.ofNullable(values[0]).ifPresent(s::setRegion);
+        Optional.ofNullable(values[1]).ifPresent(s::setCityPart);
+        Optional.ofNullable(values[2]).ifPresent(s::setYear);
+        if (values.length > 3) {
+            Optional.ofNullable(values[3]).ifPresent(s::setSunlight);
+        }
+        return s;
     }
 
     private Raindrops toRaindrops(String[] values) {
@@ -131,21 +150,5 @@ public class ReadCsv {
 
     public void setTemperature(List<Object> temperature) {
         this.temperature = temperature;
-    }
-
-    public List<Object> getTrees() {
-        return trees;
-    }
-
-    public void setTrees(List<Object> trees) {
-        this.trees = trees;
-    }
-
-    public List<Object> getWaterQuality() {
-        return waterQuality;
-    }
-
-    public void setWaterQuality(List<Object> waterQuality) {
-        this.waterQuality = waterQuality;
     }
 }

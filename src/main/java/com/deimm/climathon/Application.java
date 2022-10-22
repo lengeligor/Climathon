@@ -13,9 +13,6 @@ public class Application {
 
         ReadCsv readCsv = new ReadCsv();
         readCsv.fillLists();
-
-        System.out.println("debug");
-
     }
 }
 
