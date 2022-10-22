@@ -5,6 +5,7 @@ import com.deimm.climathon.dto.Humidity;
 import com.deimm.climathon.dto.Raindrops;
 import com.deimm.climathon.dto.Sunlight;
 import com.deimm.climathon.dto.Temperature;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Component
 public class ReadCsv {
 
     private static final String COMMA_DELIMITER = ";";
@@ -41,6 +43,7 @@ public class ReadCsv {
     private void readCsv(String filename, List<Object> list){
         try (BufferedReader br = new BufferedReader(new FileReader("src/main/resources/data/" + filename))) {
             String line;
+            br.readLine();
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(COMMA_DELIMITER);
                 switch (filename) {
