@@ -39,10 +39,13 @@ public class SearchService {
 
         List<Locality> localityList = new ArrayList<>(locality.values());
 
-        if (filter.isRain()){
+        if (filter.isRain() && filter.isSunlight()){
+            localityList.sort(Locality.localityComparatorByRainAndSunlight);
+        }
+        else if (filter.isRain()){
             localityList.sort(Locality.localityComparatorByRain);
         }
-        if (filter.isSunlight()){
+        else if (filter.isSunlight()){
             localityList.sort(Locality.localityComparatorBySunlight);
         }
 

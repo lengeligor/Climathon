@@ -43,4 +43,22 @@ public class Locality {
             }
         }
     };
+
+    public static Comparator<Locality> localityComparatorByRainAndSunlight = new Comparator<Locality>() {
+        public int compare(Locality s1, Locality s2) {
+            if (s1 != null && s2 != null) {
+                Long s1c
+                        = Long.parseLong(s1.getRain()) + Long.parseLong(s1.getSunlight());
+                Long s2c
+                        = Long.parseLong(s2.getRain())+ Long.parseLong(s2.getSunlight());
+                s1c = s1c/2;
+                s2c = s2c/2;
+
+                return s2c.compareTo(
+                        s1c);
+            } else {
+                return 0;
+            }
+        }
+    };
 }
